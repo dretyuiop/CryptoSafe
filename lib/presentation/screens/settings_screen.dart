@@ -85,7 +85,6 @@ class SettingsScreen extends StatelessWidget {
         MaterialPageRoute(builder: (_) => const WebDavSetupScreen()),
       );
     } else if (key == 'googledrive') {
-      await GoogleDriveProvider.signOut();
       await GoogleDriveProvider.connect(forceInteractive: true);
       readIndexCloud();
     }
