@@ -34,12 +34,10 @@ Future<void> addFileToRepo(String fileName, String filePath,
   final uuid = Uuid();
   List<int> buffer = [];
 
-
   await for (final List<int> streamblock in fileStream) {
     buffer.addAll(streamblock);
 
     while (buffer.length >= targetblockSize) {
-
       final rawblock = buffer.sublist(0, targetblockSize);
       buffer = buffer.sublist(targetblockSize);
 
@@ -91,7 +89,6 @@ Future<void> addFileToRepo(String fileName, String filePath,
     description,
   );
   await writeIndexCloud();
-
 }
 
 Future<Map<String, dynamic>> searchFilesFromRepo(String keyword) async {
@@ -128,7 +125,6 @@ Future<Map<String, dynamic>> searchFilesFromRepo(String keyword) async {
       return MapEntry(
           decryptedFileName, [decryptedDescription, encryptedFileName]);
     } catch (e) {
-      print("Error processing file entry: $e");
       return null;
     }
   });
@@ -165,7 +161,7 @@ Future<String> getFilesFromRepo(
   final cloud = await createCloudInstance();
   final prefs = await SharedPreferences.getInstance();
   final downloadDirectory = prefs.getString('download_directory');
-  final fileName = decryptString(encryptedFileName);
+  final fileName = await decryptString(encryptedFileName);
 
   final keywordMap = await searchIndexKeyword(keyword);
   final Map<String, dynamic>? fileLocations = keywordMap[encryptedFileName];
@@ -177,7 +173,6 @@ Future<String> getFilesFromRepo(
   final String outputPath = '${downloadDirectory!}/$fileName';
   final File outputFile = File(outputPath);
   final IOSink sink = outputFile.openWrite();
-
 
   try {
     for (final entry in fileLocations.entries) {
