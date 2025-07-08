@@ -217,7 +217,7 @@ class _UploadScreenState extends State<UploadScreen> {
                   ),
                   const SizedBox(height: 20),
                   const Text(
-                    'Enter Keywords: (Remember this)',
+                    'Enter Keywords (Used for Searching):',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
