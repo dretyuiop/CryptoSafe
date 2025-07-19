@@ -112,7 +112,13 @@ class _UploadScreenState extends State<UploadScreen> {
       final RootIsolateToken rootIsolateToken = RootIsolateToken.instance!;
       await compute(
         addFileToRepoWrapper,
-        [fileName, filePath, keywords, description, rootIsolateToken],
+        {
+          'fileName': fileName,
+          'filePath': filePath,
+          'keywords': keywords,
+          'description': description,
+          'rootIsolateToken': rootIsolateToken,
+        },
       );
 
       if (mounted) Navigator.of(context).pop();
@@ -296,12 +302,12 @@ class _UploadScreenState extends State<UploadScreen> {
   }
 }
 
-Future<void> addFileToRepoWrapper(List<dynamic> args) async {
-  final String fileName = args[0];
-  final String filePath = args[1];
-  final List<String> keywords = List<String>.from(args[2]);
-  final String description = args[3];
-  final RootIsolateToken rootToken = args[4];
+Future<void> addFileToRepoWrapper(Map<String, dynamic> args) async {
+  final String fileName = args['fileName'];
+  final String filePath = args['filePath'];
+  final List<String> keywords = List<String>.from(args['keywords']);
+  final String description = args['description'];
+  final RootIsolateToken rootToken = args['rootIsolateToken'];
 
   BackgroundIsolateBinaryMessenger.ensureInitialized(rootToken);
 
@@ -311,5 +317,6 @@ Future<void> addFileToRepoWrapper(List<dynamic> args) async {
     keywords,
     description,
   );
+
   return result;
 }
